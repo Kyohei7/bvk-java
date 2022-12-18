@@ -7,4 +7,6 @@ public interface CartService {
 
     ResponseData addToCartService(CartRequest request) throws Exception;
 
+    ResponseData removeToCartService(long idCart) throws Exception;
+
 }

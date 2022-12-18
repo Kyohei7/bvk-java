@@ -2,6 +2,8 @@ package com.bvk.bvkjavaspringboot.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +27,12 @@ public class CartController {
     @PostMapping
     public ResponseEntity<ResponseData> addToCart(@RequestBody @Valid CartRequest request) throws Exception {
         responseData = cartService.addToCartService(request);
+        return ResponseEntity.status(responseData.getStatus()).body(responseData);
+    }
+
+    @DeleteMapping("/{idCart}")
+    public ResponseEntity<ResponseData> removeToCart(@PathVariable Long idCart) throws Exception {
+        responseData = cartService.removeToCartService(idCart);
         return ResponseEntity.status(responseData.getStatus()).body(responseData);
     }
 

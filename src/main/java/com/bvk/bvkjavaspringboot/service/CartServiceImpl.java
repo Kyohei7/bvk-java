@@ -1,5 +1,6 @@
 package com.bvk.bvkjavaspringboot.service;
 
+import java.lang.StackWalker.Option;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import com.bvk.bvkjavaspringboot.model.entity.User;
 import com.bvk.bvkjavaspringboot.repository.CartRepository;
 import com.bvk.bvkjavaspringboot.repository.ProductRepository;
 import com.bvk.bvkjavaspringboot.repository.UserRepository;
+import com.bvk.bvkjavaspringboot.validator.CartValidator;
 import com.bvk.bvkjavaspringboot.validator.ProductValidator;
 import com.bvk.bvkjavaspringboot.validator.UserValidator;
 
@@ -35,6 +37,9 @@ public class CartServiceImpl implements CartService {
 
     @Autowired
     private UserValidator userValidator;
+
+    @Autowired
+    private CartValidator cartValidator;
 
     private ResponseData responseData;
 
@@ -58,6 +63,24 @@ public class CartServiceImpl implements CartService {
         cartRepository.save(cart);
 
         responseData = new ResponseData(201, "Success Add to Cart", cart);
+
+        return responseData;
+    }
+
+    @Override
+    public ResponseData removeToCartService(long idCart) throws Exception {
+
+        Optional<Cart> cartFind = cartRepository.findById(idCart);
+
+        cartValidator.validateCartIsNotExisting(cartFind);
+
+        Cart cart = cartFind.get();
+
+        cartValidator.validateIsAlreadyRemove(cart);
+
+        cart.setStatus(true);
+
+        responseData = new ResponseData(200, "Success Remove Cart", null);
 
         return responseData;
     }

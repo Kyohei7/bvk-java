@@ -37,7 +37,7 @@ public class Cart implements Serializable {
     @Column(nullable = false)
     private Integer price;
 
-    private Boolean status = true;
+    private Boolean status = false;
 
     public Cart(Integer quantity, Integer price) {
         this.quantity = quantity;
