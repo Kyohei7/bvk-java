@@ -11,8 +11,7 @@ import com.bvk.bvkjavaspringboot.model.entity.Product;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
-    // Get Data Product Where product name LIKE
-    @Query(value = "SELECT * FROM products WHERE name = ?1 AND status = true", nativeQuery = true)
+    @Query(value = "SELECT * FROM products WHERE name like concat('%', ?1, '%') AND status = true", nativeQuery = true)
     List<Product> searchProductByName(String name);
 
 }
